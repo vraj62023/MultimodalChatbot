@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # --- BACKEND SERVICE ---
+  backend:
+    build: ./backend
+    container_name: neuralchat_backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env  # It reads your existing .env file!
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - mern_network
+
+  # --- FRONTEND SERVICE ---
+  frontend:
+    build: ./frontend
+    container_name: neuralchat_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # This points to the backend running on your machine's localhost
+      - VITE_API_URL=http://localhost:5000/api/v1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - mern_network
+
+# Create a shared network so they can talk if needed
+networks:
+  mern_network:
+    driver: bridge
