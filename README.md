@@ -3,7 +3,7 @@
 
 A powerful, containerized **MERN Stack** AI Chat application capable of multi-model interactions. This project integrates **Google Gemini** and **Groq (Llama 3)** into a unified interface, supporting both text generation and vision capabilities, wrapped in a secure and responsive React frontend.
 
-![NeuralChat Demo](https://drive.google.com/file/d/1MFHhGZ4Ubga5x-CdD35nqpty00_BbwPt/view) 
+DEMO VIDEO:: https://drive.google.com/file/d/1MFHhGZ4Ubga5x-CdD35nqpty00_BbwPt/view
 
 
 ## 🚀 Features
