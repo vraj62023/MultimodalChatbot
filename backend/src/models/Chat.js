@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
     role: { type: String, required: true, enum: ['user', 'model'] },
     content: { type: String, required: true },
-    image: { type: String }, // Optional: URL or Base64 (simplified for now)
+    image: { type: String },
     timestamp: { type: Date, default: Date.now }
 });
 

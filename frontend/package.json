@@ -14,10 +14,14 @@
     "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.4",
+    "katex": "^0.16.28",
     "lucide-react": "^0.563.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.13.0",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

@@ -1,8 +1,9 @@
 
 /**
- * @file groq.js
+ * @file gemini.js
  * @description Integration with gemini model
  */
+
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const BaseProvider = require('./base')
 class GeminiProvider extends BaseProvider {
@@ -11,7 +12,7 @@ class GeminiProvider extends BaseProvider {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         this.model = genAI.getGenerativeModel({ model: "models/gemini-2.5-flash" });
     }
-    async generateResponse(prompt, imageBuffer, mimeType) {
+    async generateResponse(prompt, imageBuffer, mimeType, history=[]) {
         try {
             let result;
             if (imageBuffer) {
@@ -22,6 +23,7 @@ class GeminiProvider extends BaseProvider {
                     },
                 };
                 result = await this.model.generateContent([prompt, imagePart]);
+                return result.response.text();
             } else {
                 result = await this.model.generateContent(prompt);
             }

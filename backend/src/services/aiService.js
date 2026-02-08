@@ -6,11 +6,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Groq = require("groq-sdk");
 require('dotenv').config();
 
-// Initialize SDKs
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-// Helper: Convert File Buffer to GenerativePart (for Gemini)
+
 function fileToGenerativePart(buffer, mimeType) {
     return {
         inlineData: {
@@ -20,15 +19,11 @@ function fileToGenerativePart(buffer, mimeType) {
     };
 }
 
-/**
- * Generates AI response with Context Memory
- */
+
 exports.generate = async (prompt, fileBuffer, mimeType, modelName = 'gemini', history = []) => {
     
-    // --- OPTION 1: GOOGLE GEMINI ---
     if (modelName === 'gemini') {
         try {
-            // FIX: Use 1.5-flash (2.5 is not stable/public yet)
             const model = genAI.getGenerativeModel({ model: "models/gemini-2.5-flash" });
             
             let textResponse = "";
@@ -43,20 +38,16 @@ exports.generate = async (prompt, fileBuffer, mimeType, modelName = 'gemini', hi
                 textResponse = result.response.text();
             }
 
-            // CHANGE 1: Return Object, not just string
             return { text: textResponse, model: "gemini" };
 
         } catch (error) {
-            // --- FALLBACK LOGIC ---
             console.warn(`⚠️ Gemini Failed: ${error.message}`);
             console.log("⚡ Recursively switching to Groq...");
             
-            // RECURSIVE CALL: This will now return the Groq object ({ text: "...", model: "groq" })
             return await exports.generate(prompt, fileBuffer, mimeType, 'groq', history);
         }
     }
 
-    // --- OPTION 2: GROQ (Llama 3) ---
     else if (modelName === 'groq') {
         
         const messages = history.map(msg => ({
@@ -83,7 +74,6 @@ exports.generate = async (prompt, fileBuffer, mimeType, modelName = 'gemini', hi
                 max_tokens: 1024,
             });
 
-            // CHANGE 2: Return Object
             return { 
                 text: chatCompletion.choices[0]?.message?.content, 
                 model: "groq" 
@@ -99,7 +89,6 @@ exports.generate = async (prompt, fileBuffer, mimeType, modelName = 'gemini', hi
                 max_tokens: 1024,
             });
 
-            // CHANGE 3: Return Object
             return { 
                 text: chatCompletion.choices[0]?.message?.content || "No response", 
                 model: "groq" 

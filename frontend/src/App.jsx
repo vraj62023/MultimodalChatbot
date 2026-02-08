@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import ChatInterface from './components/ChatInterface';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ChatInterface from './pages/ChatInterface';
 
 function App() {
   return (
