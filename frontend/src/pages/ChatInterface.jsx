@@ -69,9 +69,14 @@ const ChatInterface = () => {
   }, []);
 
   
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+const scrollToBottom = () => {
+  if (scrollContainerRef.current) {
+    scrollContainerRef.current.scrollTo({
+      top: scrollContainerRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+};
 
   useEffect(() => {
     scrollToBottom();
